@@ -1,0 +1,75 @@
+@import "tailwindcss";
+
+/* Custom Font - Nichollas Caffee Italic */
+@font-face {
+  font-family: 'Nichollas Caffee';
+  src: url('/fonts/Nichollas Caffee Italic.otf') format('opentype');
+  font-weight: normal;
+  font-style: italic;
+  font-display: swap;
+}
+
+:root {
+  /* Colors from the wedding invitation */
+  --background: #FEFEFE;
+  --foreground: #171717;
+  
+  /* Invitation palette */
+  --wedding-primary: #528185;      /* Verd petroli / Teal - color principal */
+  --wedding-secondary: #C2D9D1;    /* Verd menta suau - detalls */
+  --wedding-bg: #E0E5E1;           /* Gris beix clar - fons */
+  --wedding-white: #FEFEFE;        /* Blanc pur */
+  
+  /* Accent colors */
+  --rose-500: #528185;
+  --rose-600: #3D6366;
+}
+
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-wedding-primary: #528185;
+  --color-wedding-secondary: #C2D9D1;
+  --color-wedding-bg: #E0E5E1;
+  --color-wedding-white: #FEFEFE;
+  --font-sans: var(--font-cinzel);
+  --font-script: 'British Castilla Script', cursive;
+}
+
+body {
+  background: var(--background);
+  color: var(--foreground);
+  font-family: var(--font-cinzel), serif;
+}
+
+/* Smooth scrolling */
+html {
+  scroll-behavior: smooth;
+}
+
+/* PWA-friendly viewport */
+@media (prefers-color-scheme: dark) {
+  :root {
+    --background: #F5F7F6;
+    --foreground: #171717;
+  }
+}
+
+/* Custom scrollbar */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: #E0E5E1;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #528185;
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #3D6366;
+}
