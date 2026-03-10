@@ -55,13 +55,13 @@ export async function POST(request: Request) {
 export async function GET() {
   try {
     await ensureDbInitialized();
-    
+
     const photos = await getAllPhotos();
-    
+
     return NextResponse.json({
       photos: photos.map((photo) => ({
         id: photo.id.toString(),
-        url: photo.publicUrl,
+        url: photo.publicurl || photo.publicUrl,
         alt: photo.alt || "Wedding photo",
         uploadedAt: new Date(photo.uploadedAt || Date.now()),
       })),
