@@ -17,11 +17,12 @@ export default function Header() {
             href="/" 
             className="text-2xl font-semibold transition-colors"
             style={{ 
-              fontFamily: 'var(--font-great-vibes)',
-              color: '#528185'
+              fontFamily: "'Brittany Signature', 'Brittany', cursive",
+              color: '#528185',
+              fontSize: '2.5rem'
             }}
           >
-            Natàlia & Marco
+            {t("home", "couple_name")}
           </Link>
 
           {/* Desktop Navigation */}
@@ -30,7 +31,7 @@ export default function Header() {
               href="/"
               className="text-sm transition-colors hover:text-[#528185]"
               style={{ 
-                fontFamily: 'var(--font-cinzel)',
+                fontFamily: "'Abhaya Libre', serif",
                 letterSpacing: '0.1em',
                 color: '#171717'
               }}
@@ -41,7 +42,7 @@ export default function Header() {
               href="/gallery"
               className="text-sm transition-colors hover:text-[#528185]"
               style={{ 
-                fontFamily: 'var(--font-cinzel)',
+                fontFamily: "'Abhaya Libre', serif",
                 letterSpacing: '0.1em',
                 color: '#171717'
               }}
@@ -54,7 +55,7 @@ export default function Header() {
               style={{ 
                 backgroundColor: '#528185',
                 color: '#FEFEFE',
-                fontFamily: 'var(--font-cinzel)',
+                fontFamily: "'Abhaya Libre', serif",
                 letterSpacing: '0.1em'
               }}
             >
@@ -134,10 +135,10 @@ export default function Header() {
 function LanguageSwitcher() {
   const { locale, setLocale } = useLanguage();
 
-  const languages: { code: string; label: string; flag: string }[] = [
-    { code: "ca", label: "CA", flag: "🇪🇸" },
-    { code: "es", label: "ES", flag: "🇪🇸" },
-    { code: "it", label: "IT", flag: "🇮🇹" },
+  const languages: { code: string; label: string }[] = [
+    { code: "ca", label: "Català" },
+    { code: "it", label: "Italiano" },
+    { code: "es", label: "Español" },
   ];
 
   return (
@@ -147,7 +148,7 @@ function LanguageSwitcher() {
         onChange={(e) => setLocale(e.target.value as any)}
         className="text-xs rounded-full border border-[#C2D9D1] px-3 py-1.5 focus:outline-none focus:ring-2 focus:ring-[#528185]/50 transition-all"
         style={{ 
-          fontFamily: 'var(--font-cinzel)',
+          fontFamily: "'Abhaya Libre', serif",
           letterSpacing: '0.05em',
           backgroundColor: '#FEFEFE'
         }}
@@ -155,7 +156,7 @@ function LanguageSwitcher() {
       >
         {languages.map((lang) => (
           <option key={lang.code} value={lang.code}>
-            {lang.flag} {lang.label}
+            {lang.label}
           </option>
         ))}
       </select>

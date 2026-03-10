@@ -9,6 +9,32 @@
   font-display: swap;
 }
 
+/* Custom Font - Brittany Signature (noms) */
+@font-face {
+  font-family: 'Brittany Signature';
+  src: url('/fonts/BrittanySignature.ttf') format('truetype');
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Brittany';
+  src: url('/fonts/BrittanySignature.ttf') format('truetype');
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
+/* Custom Font - Abhaya Libre (textos secundaris) */
+@font-face {
+  font-family: 'Abhaya Libre';
+  src: url('/fonts/AbhayaLibre-Regular.ttf') format('truetype');
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
 :root {
   /* Colors from the wedding invitation */
   --background: #FEFEFE;
@@ -33,13 +59,14 @@
   --color-wedding-bg: #E0E5E1;
   --color-wedding-white: #FEFEFE;
   --font-sans: var(--font-cinzel);
-  --font-script: 'British Castilla Script', cursive;
+  --font-script: 'Brittany Signature', cursive;
+  --font-body: 'Abhaya Libre', serif;
 }
 
 body {
   background: var(--background);
   color: var(--foreground);
-  font-family: var(--font-cinzel), serif;
+  font-family: var(--font-body);
 }
 
 /* Smooth scrolling */

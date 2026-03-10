@@ -8,15 +8,7 @@ export default function Home() {
   const { t } = useLanguage();
 
   return (
-    <div className="min-h-screen" style={{ 
-      backgroundImage: "url('/_3052c684-3f7d-43e1-b387-6c50c7121336.jpeg')",
-      backgroundSize: "cover",
-      backgroundPosition: "center",
-      backgroundAttachment: "fixed"
-    }}>
-      {/* Overlay suau per millorar la llegibilitat */}
-      <div className="absolute inset-0 bg-white/60 backdrop-blur-[2px]" />
-      
+    <div className="min-h-screen">
       {/* Hero Section */}
       <section className="relative min-h-[90vh] flex items-center justify-center overflow-hidden">
         <div className="relative z-10 text-center px-4 max-w-4xl mx-auto">
@@ -24,7 +16,7 @@ export default function Home() {
           <div className="mb-8">
             <p 
               className="text-wedding-primary text-sm md:text-base tracking-[0.3em] uppercase mb-4"
-              style={{ fontFamily: 'var(--font-cinzel)' }}
+              style={{ fontFamily: "'Abhaya Libre', serif", letterSpacing: '0.3em' }}
             >
               {t("home", "subtitle")}
             </p>
@@ -32,11 +24,12 @@ export default function Home() {
             <h1 
               className="text-6xl md:text-8xl lg:text-9xl mb-6"
               style={{ 
-                fontFamily: "'Nichollas Caffee', cursive",
-                color: '#528185'
+                fontFamily: "'Brittany Signature', 'Brittany', cursive",
+                color: '#528185',
+                fontWeight: 400
               }}
             >
-              Natàlia & Marco
+              {t("home", "couple_name")}
             </h1>
             
             <div className="w-32 h-0.5 bg-wedding-primary mx-auto my-8 opacity-50" />
@@ -46,15 +39,15 @@ export default function Home() {
           <div className="mb-12">
             <p 
               className="text-lg md:text-xl text-gray-700 mb-2"
-              style={{ fontFamily: 'var(--font-cinzel)', letterSpacing: '0.2em' }}
+              style={{ fontFamily: "'Abhaya Libre', serif", letterSpacing: '0.2em' }}
             >
-              CASTELLDEFELS
+              {t("event", "location")}
             </p>
             <p 
               className="text-wedding-primary font-medium"
-              style={{ fontFamily: 'var(--font-cinzel)', letterSpacing: '0.1em' }}
+              style={{ fontFamily: "'Abhaya Libre', serif", letterSpacing: '0.1em' }}
             >
-              SABADO · 2026
+              {t("event", "date")}
             </p>
           </div>
           
@@ -66,7 +59,7 @@ export default function Home() {
               style={{ 
                 backgroundColor: '#528185',
                 color: '#FEFEFE',
-                fontFamily: 'var(--font-cinzel)',
+                fontFamily: "'Abhaya Libre', serif",
                 letterSpacing: '0.15em'
               }}
             >
@@ -88,7 +81,7 @@ export default function Home() {
               style={{ 
                 borderColor: '#528185',
                 color: '#528185',
-                fontFamily: 'var(--font-cinzel)',
+                fontFamily: "'Abhaya Libre', serif",
                 letterSpacing: '0.15em'
               }}
             >
@@ -119,49 +112,30 @@ export default function Home() {
           </div>
           
           <div className="grid md:grid-cols-3 gap-10">
+            {/* Card 1 - Amor Universal */}
             <div className="text-center p-6 rounded-2xl bg-gradient-to-br from-wedding-bg/30 to-white/50 border border-wedding-secondary/20">
-              <div 
+              <div
                 className="w-20 h-20 mx-auto mb-6 rounded-full flex items-center justify-center"
                 style={{ backgroundColor: '#C2D9D140' }}
               >
                 <svg className="w-10 h-10" style={{ color: '#528185' }} fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z" />
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M3.055 11H5a2 2 0 012 2v1a2 2 0 002 2 2 2 0 012 2v2.945M8 3.935V5.5A2.5 2.5 0 0010.5 8h.5a2 2 0 012 2 2 2 0 104 0 2 2 0 012-2h1.064M15 20.488V18a2 2 0 012-2h3.064M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
                 </svg>
               </div>
-              <h3 
+              <h3
                 className="text-xl mb-3"
-                style={{ fontFamily: 'var(--font-cinzel)', color: '#528185', letterSpacing: '0.1em' }}
+                style={{ fontFamily: "'Abhaya Libre', serif", color: '#528185', letterSpacing: '0.1em', fontWeight: 600 }}
               >
-                Natàlia & Marco
+                {t("cards", "love_title")}
               </h3>
-              <p className="text-gray-600 leading-relaxed">
-                Una història d&apos;amor que comença una nova aventura
+              <p className="text-gray-600 leading-relaxed text-sm">
+                {t("cards", "love_desc")}
               </p>
             </div>
-            
+
+            {/* Card 2 - Comparteix */}
             <div className="text-center p-6 rounded-2xl bg-gradient-to-br from-wedding-bg/30 to-white/50 border border-wedding-secondary/20">
-              <div 
-                className="w-20 h-20 mx-auto mb-6 rounded-full flex items-center justify-center"
-                style={{ backgroundColor: '#C2D9D140' }}
-              >
-                <svg className="w-10 h-10" style={{ color: '#528185' }} fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
-                </svg>
-              </div>
-              <h3 
-                className="text-xl mb-3"
-                style={{ fontFamily: 'var(--font-cinzel)', color: '#528185', letterSpacing: '0.1em' }}
-              >
-                Italia 🇮🇹
-              </h3>
-              <p className="text-gray-600 leading-relaxed">
-                Celebrant l&apos;amor al cor d&apos;Itàlia
-              </p>
-            </div>
-            
-            <div className="text-center p-6 rounded-2xl bg-gradient-to-br from-wedding-bg/30 to-white/50 border border-wedding-secondary/20">
-              <div 
+              <div
                 className="w-20 h-20 mx-auto mb-6 rounded-full flex items-center justify-center"
                 style={{ backgroundColor: '#C2D9D140' }}
               >
@@ -170,14 +144,35 @@ export default function Home() {
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M15 13a3 3 0 11-6 0 3 3 0 016 0z" />
                 </svg>
               </div>
-              <h3 
+              <h3
                 className="text-xl mb-3"
-                style={{ fontFamily: 'var(--font-cinzel)', color: '#528185', letterSpacing: '0.1em' }}
+                style={{ fontFamily: "'Abhaya Libre', serif", color: '#528185', letterSpacing: '0.1em', fontWeight: 600 }}
               >
-                Comparteix
+                {t("cards", "share_title")}
               </h3>
-              <p className="text-gray-600 leading-relaxed">
-                Puja les teves fotos i recorda aquest dia especial
+              <p className="text-gray-600 leading-relaxed text-sm">
+                {t("cards", "share_desc")}
+              </p>
+            </div>
+
+            {/* Card 3 - Recorda */}
+            <div className="text-center p-6 rounded-2xl bg-gradient-to-br from-wedding-bg/30 to-white/50 border border-wedding-secondary/20">
+              <div
+                className="w-20 h-20 mx-auto mb-6 rounded-full flex items-center justify-center"
+                style={{ backgroundColor: '#C2D9D140' }}
+              >
+                <svg className="w-10 h-10" style={{ color: '#528185' }} fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z" />
+                </svg>
+              </div>
+              <h3
+                className="text-xl mb-3"
+                style={{ fontFamily: "'Abhaya Libre', serif", color: '#528185', letterSpacing: '0.1em', fontWeight: 600 }}
+              >
+                {t("cards", "remember_title")}
+              </h3>
+              <p className="text-gray-600 leading-relaxed text-sm">
+                {t("cards", "remember_desc")}
               </p>
             </div>
           </div>

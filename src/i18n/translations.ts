@@ -1,26 +1,27 @@
 export const translations = {
   ca: {
-    // Home
     home: {
-      title: "Benvinguts al casament de la Natàlia i en Marco",
-      subtitle: "Estem molt contents de compartir aquest dia tan especial amb vosaltres",
+      title: "Benvinguts al casament de la Natalia i en Marco",
+      subtitle: "Gràcies per acompanyar-nos aquest dia tan especial",
+      couple_name: "Natàlia i Marco",
       cta_gallery: "Veure fotos",
       cta_upload: "Pujar fotos",
     },
-    // Navigation
+    event: {
+      location: "CASTELLDEFELS",
+      date: "DISSABTE 9 DE MAIG DEL 2026",
+    },
     nav: {
       home: "Inici",
       gallery: "Galeria",
       upload: "Pujar fotos",
     },
-    // Gallery
     gallery: {
       title: "Galeria de fotos",
       subtitle: "Recull de moments especials del nostre casament",
       loading: "Carregant fotos...",
       empty: "Encara no hi ha fotos",
     },
-    // Upload
     upload: {
       title: "Comparteix les teves fotos",
       subtitle: "Puja les teves fotos del casament per compartir-les amb tots",
@@ -30,14 +31,21 @@ export const translations = {
       error: "Error en pujar la foto",
       button: "Pujar foto",
     },
-    // Language
+    // Cards
+    cards: {
+      love_title: "AMOR UNIVERSAL",
+      love_desc: "L'amor no entén de llengües. Per això aquesta web parla català, italià i castellà.",
+      share_title: "COMPARTEIX",
+      share_desc: "Puja les teves fotos i fes créixer l'àlbum col·lectiu d'aquest dia tan especial.",
+      remember_title: "RECORDA",
+      remember_desc: "Guarda aquests moments per sempre. Tots junts construïm el record del casament.",
+    },
     language: {
       label: "Idioma",
       ca: "Català",
       es: "Castellà",
       it: "Italià",
     },
-    // Common
     common: {
       loading: "Carregant...",
       error: "Error",
@@ -48,9 +56,14 @@ export const translations = {
   es: {
     home: {
       title: "Bienvenidos a la boda de Natalia y Marco",
-      subtitle: "Estamos muy contentos de compartir este día tan especial con vosotros",
+      subtitle: "Gracias por acompañarnos en este día tan especial",
+      couple_name: "Natalia y Marco",
       cta_gallery: "Ver fotos",
       cta_upload: "Subir fotos",
+    },
+    event: {
+      location: "CASTELLDEFELS",
+      date: "SÁBADO 9 DE MAYO DEL 2026",
     },
     nav: {
       home: "Inicio",
@@ -72,6 +85,14 @@ export const translations = {
       error: "Error al subir la foto",
       button: "Subir foto",
     },
+    cards: {
+      love_title: "AMOR UNIVERSAL",
+      love_desc: "El amor no entiende de idiomas. Por eso esta web habla catalán, italiano y castellano.",
+      share_title: "COMPARTE",
+      share_desc: "Sube tus fotos y haz crecer el álbum colectivo de este día tan especial.",
+      remember_title: "RECUERDA",
+      remember_desc: "Guarda estos momentos para siempre. Juntos construimos el recuerdo de la boda.",
+    },
     language: {
       label: "Idioma",
       ca: "Catalán",
@@ -88,9 +109,14 @@ export const translations = {
   it: {
     home: {
       title: "Benvenuti al matrimonio di Natalia e Marco",
-      subtitle: "Siamo molto felici di condividere questo giorno speciale con voi",
+      subtitle: "Grazie per accompagnarci in questo giorno speciale",
+      couple_name: "Natalia e Marco",
       cta_gallery: "Vedi foto",
       cta_upload: "Carica foto",
+    },
+    event: {
+      location: "CASTELLDEFELS",
+      date: "SABATO 9 MAGGIO 2026",
     },
     nav: {
       home: "Home",
@@ -111,6 +137,14 @@ export const translations = {
       success: "Foto caricata con successo!",
       error: "Errore nel caricamento della foto",
       button: "Carica foto",
+    },
+    cards: {
+      love_title: "AMORE UNIVERSALE",
+      love_desc: "L'amore non conosce lingue. Per questo questo sito parla catalano, italiano e spagnolo.",
+      share_title: "CONDIVIDI",
+      share_desc: "Carica le tue foto per far crescere l'album collettivo di questo giorno speciale.",
+      remember_title: "RICORDA",
+      remember_desc: "Conserva questi momenti per sempre. Insieme costruiamo il ricordo del matrimonio.",
     },
     language: {
       label: "Lingua",
