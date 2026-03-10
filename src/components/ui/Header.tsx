@@ -15,11 +15,12 @@ export default function Header() {
           {/* Logo / Title */}
           <Link 
             href="/" 
-            className="text-2xl font-semibold transition-colors"
+            className="text-xl font-semibold transition-colors"
             style={{ 
-              fontFamily: "'Above the Beyond Serif', 'Brittany Signature', 'Brittany', cursive",
+              fontFamily: "'Above the Beyond Script', 'Above the Beyond Serif', cursive",
               color: '#528185',
-              fontSize: '2.5rem'
+              fontSize: '1.75rem',
+              marginTop: '0.5rem'
             }}
           >
             {t("home", "couple_name")}

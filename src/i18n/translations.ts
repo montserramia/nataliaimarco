@@ -30,6 +30,10 @@ export const translations = {
       success: "Foto pujada correctament!",
       error: "Error en pujar la foto",
       button: "Pujar foto",
+      info_title: "Comparteix els teus moments",
+      info_multi: "Pots pujar múltiples fotos alhora",
+      info_formats: "Formats suportats: JPG, PNG, HEIC",
+      info_size: "Mida màxima: 10MB per foto",
     },
     // Cards
     cards: {
@@ -84,6 +88,10 @@ export const translations = {
       success: "¡Foto subida correctamente!",
       error: "Error al subir la foto",
       button: "Subir foto",
+      info_title: "Comparte tus momentos",
+      info_multi: "Puedes subir múltiples fotos a la vez",
+      info_formats: "Formatos soportados: JPG, PNG, HEIC",
+      info_size: "Tamaño máximo: 10MB por foto",
     },
     cards: {
       love_title: "AMOR UNIVERSAL",
@@ -137,6 +145,10 @@ export const translations = {
       success: "Foto caricata con successo!",
       error: "Errore nel caricamento della foto",
       button: "Carica foto",
+      info_title: "Condividi i tuoi momenti",
+      info_multi: "Puoi caricare più foto contemporaneamente",
+      info_formats: "Formati supportati: JPG, PNG, HEIC",
+      info_size: "Dimensione massima: 10MB per foto",
     },
     cards: {
       love_title: "AMORE UNIVERSALE",

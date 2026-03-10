@@ -13,20 +13,21 @@ export default function Home() {
       <section className="relative min-h-[90vh] flex items-center justify-center overflow-hidden">
         <div className="relative z-10 text-center px-4 max-w-4xl mx-auto">
           {/* Títol principal amb font script */}
-          <div className="mb-8">
+          <div className="mb-12">
             <p 
-              className="text-wedding-primary text-sm md:text-base tracking-[0.3em] uppercase mb-4"
+              className="text-wedding-primary text-sm md:text-base tracking-[0.3em] uppercase mb-8"
               style={{ fontFamily: "'Abhaya Libre', serif", letterSpacing: '0.3em' }}
             >
               {t("home", "subtitle")}
             </p>
             
             <h1 
-              className="text-6xl md:text-8xl lg:text-9xl mb-6"
+              className="text-4xl md:text-6xl lg:text-7xl mb-6"
               style={{ 
-                fontFamily: "'Above the Beyond Serif', 'Brittany Signature', 'Brittany', cursive",
+                fontFamily: "'Above the Beyond Script', 'Above the Beyond Serif', cursive",
                 color: '#528185',
-                fontWeight: 400
+                fontWeight: 400,
+                marginTop: 'revert'
               }}
             >
               {t("home", "couple_name")}
