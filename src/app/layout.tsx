@@ -38,10 +38,10 @@ export default function RootLayout({
             className="pt-20 min-h-screen"
             style={{
               backgroundImage: "url('/Natalia-Marco.webp')",
-              backgroundSize: "100% auto",
+              backgroundSize: "cover",
               backgroundPosition: "center top",
               backgroundRepeat: "no-repeat",
-              backgroundAttachment: "fixed"
+              backgroundAttachment: "scroll"
             }}
           >
             {children}
