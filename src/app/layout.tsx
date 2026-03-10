@@ -9,8 +9,10 @@ export const metadata: Metadata = {
   manifest: "/manifest.json",
   themeColor: "#528185",
   icons: {
-    icon: "/favicon.ico",
-    apple: "/apple-touch-icon.png",
+    icon: [
+      { url: "/favicon.ico?v=2", href: "/favicon.ico?v=2" },
+      { url: "/apple-touch-icon.png?v=2", href: "/apple-touch-icon.png?v=2" },
+    ],
   },
   appleWebApp: {
     capable: true,
