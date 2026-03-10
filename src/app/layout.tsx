@@ -8,6 +8,10 @@ export const metadata: Metadata = {
   description: "Àlbum de fotos del casament de la Natalia i en Marco",
   manifest: "/manifest.json",
   themeColor: "#528185",
+  icons: {
+    icon: "/favicon.ico",
+    apple: "/apple-touch-icon.png",
+  },
   appleWebApp: {
     capable: true,
     statusBarStyle: "default",

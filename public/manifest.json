@@ -1,11 +1,11 @@
 {
-  "name": "Natàlia & Marco - Casament",
-  "short_name": "Natàlia & Marco",
-  "description": "Àlbum de fotos del casament de la Natàlia i en Marco",
+  "name": "Natalia & Marco - Casament",
+  "short_name": "Natalia & Marco",
+  "description": "Àlbum de fotos del casament de la Natalia i en Marco",
   "start_url": "/",
   "display": "standalone",
-  "background_color": "#ffffff",
-  "theme_color": "#e11d48",
+  "background_color": "#FEFEFE",
+  "theme_color": "#528185",
   "orientation": "portrait-primary",
   "icons": [
     {
