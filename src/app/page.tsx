@@ -24,7 +24,7 @@ export default function Home() {
             <h1 
               className="text-6xl md:text-8xl lg:text-9xl mb-6"
               style={{ 
-                fontFamily: "'Brittany Signature', 'Brittany', cursive",
+                fontFamily: "'Above the Beyond Serif', 'Brittany Signature', 'Brittany', cursive",
                 color: '#528185',
                 fontWeight: 400
               }}

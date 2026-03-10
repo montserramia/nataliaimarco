@@ -17,7 +17,7 @@ export default function Header() {
             href="/" 
             className="text-2xl font-semibold transition-colors"
             style={{ 
-              fontFamily: "'Brittany Signature', 'Brittany', cursive",
+              fontFamily: "'Above the Beyond Serif', 'Brittany Signature', 'Brittany', cursive",
               color: '#528185',
               fontSize: '2.5rem'
             }}
