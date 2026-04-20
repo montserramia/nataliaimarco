@@ -17,8 +17,9 @@ interface GalleryProps {
   loading?: boolean;
 }
 
-export default function Gallery({ photos, loading = false }: GalleryProps) {
+export default function Gallery({ photos: initialPhotos, loading = false }: GalleryProps) {
   const [selectedPhoto, setSelectedPhoto] = useState<MediaItem | null>(null);
+  const [photos, setPhotos] = useState<MediaItem[]>(initialPhotos);
 
   if (loading) {
     return (
