@@ -8,24 +8,6 @@ export default function UploadPage() {
   const { t } = useLanguage();
   const [uploadStatus, setUploadStatus] = useState<"idle" | "uploading" | "success" | "error">("idle");
 
-  // Comprovar que les variables d'entorn estiguin disponibles
-  if (typeof window !== 'undefined' && !process.env.NEXT_PUBLIC_DEVELOPMENT_MODE) {
-    const requiredEnvVars = [
-      'R2_ENDPOINT',
-      'R2_ACCESS_KEY_ID',
-      'R2_SECRET_ACCESS_KEY',
-      'R2_BUCKET_NAME',
-      'R2_PUBLIC_URL',
-      'DATABASE_URL'
-    ];
-    
-    const missingEnvVars = requiredEnvVars.filter(envVar => !process.env[envVar]);
-    
-    if (missingEnvVars.length > 0) {
-      console.error("Missing required environment variables:", missingEnvVars);
-      alert(`Environment configuration error: Missing ${missingEnvVars.join(', ')}. Please configure your .env.local file.`);
-    }
-  }
 
   const handleUpload = async (files: File[]) => {
     setUploadStatus("uploading");
@@ -80,8 +62,12 @@ export default function UploadPage() {
           });
         } catch (error) {
           console.error("Network error during upload to R2:", error);
-          // Mostrar un missatge més informatiu
-          alert("There was an error connecting to the file storage service. Please make sure your environment variables are correctly configured.\n\nError: " + (error instanceof Error ? error.message : String(error)));
+          // Només mostrar detalls específics en entorn de desenvolupament
+          if (process.env.NODE_ENV === 'development') {
+            alert("There was an error connecting to the file storage service. Please make sure your environment variables are correctly configured.\n\nError: " + (error instanceof Error ? error.message : String(error)));
+          } else {
+            alert("There was an error connecting to the file storage service. Please try again later.");
+          }
           throw new Error(`Network error during upload: ${error instanceof Error ? error.message : String(error)}`);
         }
 
