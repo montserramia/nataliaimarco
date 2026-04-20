@@ -34,6 +34,7 @@ function getPoolInstance() {
 export async function initDatabase() {
   const client = await getPoolInstance().connect();
   try {
+    // Crear la taula si no existeix
     await client.query(`
       CREATE TABLE IF NOT EXISTS photos (
         id SERIAL PRIMARY KEY,
@@ -45,6 +46,19 @@ export async function initDatabase() {
         approved BOOLEAN DEFAULT true
       )
     `);
+    
+    // Afegir la columna mediaType si no existeix (per compatibilitat amb bases de dades antigues)
+    const columnsResult = await client.query(`
+      SELECT column_name 
+      FROM information_schema.columns 
+      WHERE table_name = 'photos' AND column_name = 'mediatype'
+    `);
+    
+    if (columnsResult.rows.length === 0) {
+      await client.query(`
+        ALTER TABLE photos ADD COLUMN mediaType TEXT DEFAULT 'image'
+      `);
+    }
     
     await client.query(`
       CREATE INDEX IF NOT EXISTS idx_photos_uploadedAt 
