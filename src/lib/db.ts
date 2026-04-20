@@ -40,6 +40,7 @@ export async function initDatabase() {
         key TEXT UNIQUE NOT NULL,
         publicUrl TEXT NOT NULL,
         alt TEXT,
+        mediaType TEXT DEFAULT 'image',
         uploadedAt TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
         approved BOOLEAN DEFAULT true
       )
@@ -59,15 +60,15 @@ export async function initDatabase() {
   }
 }
 
-export async function insertPhoto(key: string, publicUrl: string, alt?: string) {
+export async function insertPhoto(key: string, publicUrl: string, alt?: string, mediaType: string = 'image') {
   const client = await getPoolInstance().connect();
   try {
     const result = await client.query(
-      `INSERT INTO photos (key, publicUrl, alt, approved)
-       VALUES ($1, $2, $3, true)
+      `INSERT INTO photos (key, publicUrl, alt, mediaType, approved)
+       VALUES ($1, $2, $3, $4, true)
        ON CONFLICT (key) DO NOTHING
        RETURNING *`,
-      [key, publicUrl, alt || '']
+      [key, publicUrl, alt || '', mediaType]
     );
     return result.rows[0];
   } catch (error) {

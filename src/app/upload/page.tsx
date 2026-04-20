@@ -8,12 +8,44 @@ export default function UploadPage() {
   const { t } = useLanguage();
   const [uploadStatus, setUploadStatus] = useState<"idle" | "uploading" | "success" | "error">("idle");
 
+  // Comprovar que les variables d'entorn estiguin disponibles
+  if (typeof window !== 'undefined' && !process.env.NEXT_PUBLIC_DEVELOPMENT_MODE) {
+    const requiredEnvVars = [
+      'R2_ENDPOINT',
+      'R2_ACCESS_KEY_ID',
+      'R2_SECRET_ACCESS_KEY',
+      'R2_BUCKET_NAME',
+      'R2_PUBLIC_URL',
+      'DATABASE_URL'
+    ];
+    
+    const missingEnvVars = requiredEnvVars.filter(envVar => !process.env[envVar]);
+    
+    if (missingEnvVars.length > 0) {
+      console.error("Missing required environment variables:", missingEnvVars);
+      alert(`Environment configuration error: Missing ${missingEnvVars.join(', ')}. Please configure your .env.local file.`);
+    }
+  }
+
   const handleUpload = async (files: File[]) => {
     setUploadStatus("uploading");
 
     try {
       for (const file of files) {
         console.log("Uploading file:", file.name, file.type);
+
+        // Validació de tipus i mida
+        if (file.type.startsWith('video/')) {
+          if (file.size > 50 * 1024 * 1024) { // 50MB
+            throw new Error(t("upload", "video_too_large"));
+          }
+        } else if (file.type.startsWith('image/')) {
+          if (file.size > 10 * 1024 * 1024) { // 10MB
+            throw new Error(t("upload", "image_too_large"));
+          }
+        } else {
+          throw new Error(t("upload", "invalid_file_type"));
+        }
 
         // Step 1: Get presigned URL
         const presignedResponse = await fetch("/api/presigned-url", {
@@ -30,27 +62,36 @@ export default function UploadPage() {
         if (!presignedResponse.ok) {
           const errorData = await presignedResponse.json().catch(() => ({}));
           console.error("Presigned URL error:", errorData);
-          throw new Error(`Failed to get upload URL: ${presignedResponse.status} ${JSON.stringify(errorData)}`);
+          throw new Error(t("upload", "failed_presigned_url"));
         }
 
         const { uploadUrl, publicUrl, key } = await presignedResponse.json();
         console.log("Got presigned URL:", uploadUrl.substring(0, 50) + "...");
 
         // Step 2: Upload file to R2 using presigned URL
-        const uploadResponse = await fetch(uploadUrl, {
-          method: "PUT",
-          body: file,
-          headers: {
-            "Content-Type": file.type,
-          },
-        });
+        let uploadResponse;
+        try {
+          uploadResponse = await fetch(uploadUrl, {
+            method: "PUT",
+            body: file,
+            headers: {
+              "Content-Type": file.type,
+            },
+          });
+        } catch (error) {
+          console.error("Network error during upload to R2:", error);
+          // Mostrar un missatge més informatiu
+          alert("There was an error connecting to the file storage service. Please make sure your environment variables are correctly configured.\n\nError: " + (error instanceof Error ? error.message : String(error)));
+          throw new Error(`Network error during upload: ${error instanceof Error ? error.message : String(error)}`);
+        }
 
         console.log("R2 upload response status:", uploadResponse.status);
 
         if (!uploadResponse.ok) {
-          const errorText = await uploadResponse.text();
+          const errorText = await uploadResponse.text().catch(() => "Unknown error");
           console.error("R2 upload error:", errorText);
-          throw new Error(`Failed to upload file: ${uploadResponse.status} - ${errorText}`);
+          console.error("R2 upload response status:", uploadResponse.status);
+          throw new Error(`R2 upload failed with status ${uploadResponse.status}: ${errorText}`);
         }
 
         console.log("File uploaded successfully to:", publicUrl);
@@ -63,10 +104,17 @@ export default function UploadPage() {
             key,
             publicUrl,
             alt: file.name,
+            mediaType: file.type.startsWith('video/') ? 'video' : 'image', // Afegir tipus de mitjà
           }),
         });
 
         console.log("Metadata save response:", metadataResponse.status);
+        
+        if (!metadataResponse.ok) {
+          const errorData = await metadataResponse.json();
+          console.error("Metadata save error:", errorData);
+          throw new Error(t("upload", "failed_metadata_save"));
+        }
       }
 
       setUploadStatus("success");

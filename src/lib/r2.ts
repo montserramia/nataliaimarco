@@ -24,7 +24,30 @@ export async function generatePresignedUrl(
   // Generar un nom d'arxiu únic
   const timestamp = Date.now();
   const randomString = Math.random().toString(36).substring(2, 8);
-  const extension = fileName.split(".").pop() || "jpg";
+  
+  // Determinar l'extensió del fitxer basada en el contentType o el nom
+  let extension = fileName.split(".").pop()?.toLowerCase() || "";
+  if (!extension) {
+    // Si no es troba extensió al nom, utilitzar el contentType
+    if (contentType.includes('jpeg') || contentType.includes('jpg')) {
+      extension = 'jpg';
+    } else if (contentType.includes('png')) {
+      extension = 'png';
+    } else if (contentType.includes('heic')) {
+      extension = 'heic';
+    } else if (contentType.includes('mp4')) {
+      extension = 'mp4';
+    } else if (contentType.includes('mov')) {
+      extension = 'mov';
+    } else if (contentType.includes('video')) {
+      extension = 'mp4'; // Utilitzar mp4 com a valor per defecte per vídeos
+    } else if (contentType.includes('image')) {
+      extension = 'jpg'; // Utilitzar jpg com a valor per defecte per imatges
+    } else {
+      extension = 'jpg'; // Valor per defecte
+    }
+  }
+  
   const key = `wedding-photos/${timestamp}-${randomString}.${extension}`;
 
   const command = new PutObjectCommand({

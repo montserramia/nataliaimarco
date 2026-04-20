@@ -2,11 +2,11 @@
 
 import { useState, useEffect, useCallback } from "react";
 import { useLanguage } from "@/i18n/LanguageContext";
-import Gallery, { Photo } from "@/components/gallery/Gallery";
+import Gallery, { MediaItem } from "@/components/gallery/Gallery";
 
 export default function GalleryPage() {
   const { t } = useLanguage();
-  const [photos, setPhotos] = useState<Photo[]>([]);
+  const [photos, setPhotos] = useState<MediaItem[]>([]);
   const [loading, setLoading] = useState(true);
 
   const fetchPhotos = useCallback(async () => {

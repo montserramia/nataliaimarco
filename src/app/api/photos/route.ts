@@ -15,7 +15,7 @@ export async function POST(request: Request) {
   try {
     await ensureDbInitialized();
     
-    const { key, publicUrl, alt } = await request.json();
+    const { key, publicUrl, alt, mediaType } = await request.json();
 
     if (!key || !publicUrl) {
       return NextResponse.json(
@@ -34,9 +34,12 @@ export async function POST(request: Request) {
       });
     }
 
+    // Determine media type based on URL or provided type
+    const type = mediaType || (publicUrl.includes('.mp4') || publicUrl.includes('.mov') ? 'video' : 'image');
+
     // Save to database
-    await insertPhoto(key, publicUrl, alt || "");
-    console.log("Photo saved to database:", publicUrl);
+    await insertPhoto(key, publicUrl, alt || "", type);
+    console.log("Media saved to database:", publicUrl);
 
     return NextResponse.json({
       success: true,
@@ -62,7 +65,8 @@ export async function GET() {
       photos: photos.map((photo) => ({
         id: photo.id.toString(),
         url: photo.publicurl || photo.publicUrl,
-        alt: photo.alt || "Wedding photo",
+        alt: photo.alt || "Wedding media",
+        type: photo.mediatype || 'image', // Return media type
         uploadedAt: new Date(photo.uploadedAt || Date.now()),
       })),
     });

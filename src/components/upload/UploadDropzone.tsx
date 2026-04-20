@@ -17,14 +17,17 @@ export default function UploadDropzone({ onUpload }: UploadDropzoneProps) {
   const handleFiles = useCallback(
     async (files: FileList | File[]) => {
       const fileArray = Array.from(files);
-      const imageFiles = fileArray.filter((file) => file.type.startsWith("image/"));
+      const validFiles = fileArray.filter((file) => 
+        file.type.startsWith("image/") || 
+        file.type.startsWith("video/")
+      );
 
-      if (imageFiles.length === 0) return;
+      if (validFiles.length === 0) return;
 
       setIsUploading(true);
       try {
-        await onUpload(imageFiles);
-        setUploadedCount(imageFiles.length);
+        await onUpload(validFiles);
+        setUploadedCount(validFiles.length);
       } catch (error) {
         console.error("Upload error:", error);
       } finally {
@@ -99,7 +102,7 @@ export default function UploadDropzone({ onUpload }: UploadDropzoneProps) {
         <input
           ref={fileInputRef}
           type="file"
-          accept="image/*"
+          accept="image/*,video/*"
           multiple
           className="hidden"
           onChange={handleFileInput}
@@ -127,7 +130,7 @@ export default function UploadDropzone({ onUpload }: UploadDropzoneProps) {
           {isUploading ? t("upload", "uploading") : t("upload", "dropzone")}
         </p>
         <p className="text-sm text-gray-500">
-          JPG, PNG, HEIC • Max 10MB per foto
+          {t("upload", "info_formats")}
         </p>
       </div>
 
@@ -158,7 +161,7 @@ export default function UploadDropzone({ onUpload }: UploadDropzoneProps) {
       {/* Success message */}
       {uploadedCount > 0 && !isUploading && (
         <div className="mt-4 text-center text-green-600">
-          <p>✓ {t("upload", "success")} ({uploadedCount} {uploadedCount === 1 ? "foto" : "fotos"})</p>
+          <p>✓ {t("upload", "success")} ({uploadedCount} {uploadedCount === 1 ? t("upload", "file_singular") : t("upload", "files_plural")})</p>
         </div>
       )}
     </div>
