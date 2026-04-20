@@ -81,11 +81,40 @@ export default function Gallery({ photos, loading = false }: GalleryProps) {
         {photos.map((photo) => (
           <div
             key={photo.id}
-            className="aspect-square relative rounded-lg overflow-hidden group hover:shadow-lg transition-shadow"
+            className="aspect-square relative rounded-lg overflow-hidden group hover:shadow-lg transition-shadow flex flex-col"
           >
+            {/* Botó de favorits a sobre de la imatge/vídeo */}
+            <div className="absolute top-2 right-2 z-10">
+              <button
+                onClick={(e) => handleFavoriteClick(photo.id, e)}
+                className="bg-black/50 rounded-full p-2 hover:bg-black/70 transition-all"
+                aria-label="Mark as favorite"
+              >
+                <svg
+                  className={`w-5 h-5 ${photo.favoriteCount > 0 ? 'text-yellow-400 fill-current' : 'text-white'}`}
+                  fill={photo.favoriteCount > 0 ? 'currentColor' : 'none'}
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth={2}
+                    d="M11.049 2.927c.3-.921 1.603-.921 1.902 0l1.519 4.674a1 1 0 00.95.69h4.915c.969 0 1.371 1.24.588 1.81l-3.976 2.888a1 1 0 00-.363 1.118l1.518 4.674c.3.922-.755 1.688-1.538 1.118l-3.976-2.888a1 1 0 00-1.176 0l-3.976 2.888c-.783.57-1.838-.197-1.538-1.118l1.518-4.674a1 1 0 00-.363-1.118l-3.976-2.888c-.784-.57-.38-1.81.588-1.81h4.914a1 1 0 00.951-.69l1.519-4.674z"
+                  />
+                </svg>
+                {photo.favoriteCount > 0 && (
+                  <span className="absolute -top-2 -right-2 bg-rose-600 text-white text-xs rounded-full h-5 w-5 flex items-center justify-center">
+                    {photo.favoriteCount}
+                  </span>
+                )}
+              </button>
+            </div>
+            
+            {/* Element multimèdia (imatge o vídeo) */}
             <button
               onClick={() => setSelectedPhoto(photo)}
-              className="w-full h-full block"
+              className="w-full h-full block flex-grow"
             >
               {photo.type === 'video' ? (
                 <div className="w-full h-full flex items-center justify-center bg-gray-900 relative">
@@ -128,34 +157,6 @@ export default function Gallery({ photos, loading = false }: GalleryProps) {
                 />
               )}
             </button>
-            
-            {/* Botó de favorits */}
-            <button
-              onClick={(e) => handleFavoriteClick(photo.id, e)}
-              className="absolute top-2 right-2 bg-black/50 rounded-full p-2 hover:bg-black/70 transition-all"
-              aria-label="Mark as favorite"
-            >
-              <svg
-                className={`w-5 h-5 ${photo.favoriteCount > 0 ? 'text-yellow-400 fill-current' : 'text-white'}`}
-                fill={photo.favoriteCount > 0 ? 'currentColor' : 'none'}
-                stroke="currentColor"
-                viewBox="0 0 24 24"
-              >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth={2}
-                  d="M11.049 2.927c.3-.921 1.603-.921 1.902 0l1.519 4.674a1 1 0 00.95.69h4.915c.969 0 1.371 1.24.588 1.81l-3.976 2.888a1 1 0 00-.363 1.118l1.518 4.674c.3.922-.755 1.688-1.538 1.118l-3.976-2.888a1 1 0 00-1.176 0l-3.976 2.888c-.783.57-1.838-.197-1.538-1.118l1.518-4.674a1 1 0 00-.363-1.118l-3.976-2.888c-.784-.57-.38-1.81.588-1.81h4.914a1 1 0 00.951-.69l1.519-4.674z"
-                />
-              </svg>
-              {photo.favoriteCount > 0 && (
-                <span className="absolute -top-2 -right-2 bg-rose-600 text-white text-xs rounded-full h-5 w-5 flex items-center justify-center">
-                  {photo.favoriteCount}
-                </span>
-              )}
-            </button>
-            
-            <div className="absolute inset-0 bg-black/0 group-hover:bg-black/20 transition-colors" />
           </div>
         ))}
       </div>
