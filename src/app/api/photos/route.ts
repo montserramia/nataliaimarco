@@ -1,5 +1,5 @@
 import { NextResponse } from "next/server";
-import { insertPhoto, getAllPhotos, photoExists, initDatabase } from "@/lib/db";
+import { insertPhoto, getAllPhotos, photoExists, initDatabase, incrementFavoriteCount } from "@/lib/db";
 
 // Inicialitzar la base de dades al primer request
 let dbInitialized = false;
@@ -76,6 +76,7 @@ export async function GET() {
         url: photo.publicurl || photo.publicUrl,
         alt: photo.alt || "Wedding media",
         type: photo.mediatype || 'image', // Return media type
+        favoriteCount: photo.favoritecount || 0, // Add favorite count
         uploadedAt: new Date(photo.uploadedAt || Date.now()),
       })),
     });

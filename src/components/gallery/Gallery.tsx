@@ -8,6 +8,7 @@ export interface MediaItem {
   url: string;
   alt?: string;
   type: string; // 'image' or 'video'
+  favoriteCount: number;
   uploadedAt: Date;
 }
 
@@ -54,57 +55,108 @@ export default function Gallery({ photos, loading = false }: GalleryProps) {
     );
   }
 
+  // Funció per gestionar el clic de favorit
+  const handleFavoriteClick = async (photoId: string, e: React.MouseEvent) => {
+    e.stopPropagation(); // Evitar que s'obri la imatge en gran
+    
+    try {
+      const response = await fetch(`/api/photos/${photoId}/favorite`, {
+        method: 'POST',
+      });
+      
+      if (response.ok) {
+        // Actualitzar el contador localment
+        setPhotos(prev => prev.map(p => 
+          p.id === photoId ? {...p, favoriteCount: p.favoriteCount + 1} : p
+        ));
+      }
+    } catch (error) {
+      console.error('Error updating favorite:', error);
+    }
+  };
+
   return (
     <>
       <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
         {photos.map((photo) => (
-          <button
+          <div
             key={photo.id}
-            onClick={() => setSelectedPhoto(photo)}
             className="aspect-square relative rounded-lg overflow-hidden group hover:shadow-lg transition-shadow"
           >
-            {photo.type === 'video' ? (
-              <div className="w-full h-full flex items-center justify-center bg-gray-900 relative">
-                <video 
-                  src={photo.url} 
-                  className="object-cover w-full h-full opacity-80"
-                  muted
-                  preload="none"
-                />
-                <div className="absolute inset-0 flex items-center justify-center">
-                  <svg 
-                    className="w-12 h-12 text-white opacity-80" 
-                    fill="none" 
-                    stroke="currentColor" 
-                    viewBox="0 0 24 24"
-                  >
-                    <path 
-                      strokeLinecap="round" 
-                      strokeLinejoin="round" 
-                      strokeWidth={2} 
-                      d="M14.752 11.168l-3.197-2.132A1 1 0 0010 9.87v4.263a1 1 0 001.555.832l3.197-2.132a1 1 0 000-1.664z" 
-                    />
-                    <path 
-                      strokeLinecap="round" 
-                      strokeLinejoin="round" 
-                      strokeWidth={2} 
-                      d="M21 12a9 9 0 11-18 0 9 9 0 0118 0z" 
-                    />
-                  </svg>
+            <button
+              onClick={() => setSelectedPhoto(photo)}
+              className="w-full h-full block"
+            >
+              {photo.type === 'video' ? (
+                <div className="w-full h-full flex items-center justify-center bg-gray-900 relative">
+                  <video 
+                    src={photo.url} 
+                    className="object-cover w-full h-full opacity-80"
+                    muted
+                    preload="metadata" // Carrega només metadades per millorar rendiment
+                  />
+                  <div className="absolute inset-0 flex items-center justify-center">
+                    <svg 
+                      className="w-12 h-12 text-white opacity-80" 
+                      fill="none" 
+                      stroke="currentColor" 
+                      viewBox="0 0 24 24"
+                    >
+                      <path 
+                        strokeLinecap="round" 
+                        strokeLinejoin="round" 
+                        strokeWidth={2} 
+                        d="M14.752 11.168l-3.197-2.132A1 1 0 0010 9.87v4.263a1 1 0 001.555.832l3.197-2.132a1 1 0 000-1.664z" 
+                      />
+                      <path 
+                        strokeLinecap="round" 
+                        strokeLinejoin="round" 
+                        strokeWidth={2} 
+                        d="M21 12a9 9 0 11-18 0 9 9 0 0118 0z" 
+                      />
+                    </svg>
+                  </div>
+                  <div className="absolute inset-0 bg-black/0 group-hover:bg-black/20 transition-colors" />
                 </div>
-                <div className="absolute inset-0 bg-black/0 group-hover:bg-black/20 transition-colors" />
-              </div>
-            ) : (
-              <Image
-                src={photo.url}
-                alt={photo.alt || "Wedding media"}
-                fill
-                className="object-cover group-hover:scale-105 transition-transform duration-300"
-                sizes="(max-width: 640px) 50vw, (max-width: 1024px) 33vw, 25vw"
-              />
-            )}
+              ) : (
+                <Image
+                  src={photo.url}
+                  alt={photo.alt || "Wedding media"}
+                  fill
+                  className="object-cover group-hover:scale-105 transition-transform duration-300"
+                  sizes="(max-width: 640px) 50vw, (max-width: 1024px) 33vw, 25vw"
+                />
+              )}
+            </button>
+            
+            {/* Botó de favorits */}
+            <button
+              onClick={(e) => handleFavoriteClick(photo.id, e)}
+              className="absolute top-2 right-2 bg-black/50 rounded-full p-2 hover:bg-black/70 transition-all"
+              aria-label="Mark as favorite"
+            >
+              <svg
+                className={`w-5 h-5 ${photo.favoriteCount > 0 ? 'text-yellow-400 fill-current' : 'text-white'}`}
+                fill={photo.favoriteCount > 0 ? 'currentColor' : 'none'}
+                stroke="currentColor"
+                viewBox="0 0 24 24"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth={2}
+                  d="M11.049 2.927c.3-.921 1.603-.921 1.902 0l1.519 4.674a1 1 0 00.95.69h4.915c.969 0 1.371 1.24.588 1.81l-3.976 2.888a1 1 0 00-.363 1.118l1.518 4.674c.3.922-.755 1.688-1.538 1.118l-3.976-2.888a1 1 0 00-1.176 0l-3.976 2.888c-.783.57-1.838-.197-1.538-1.118l1.518-4.674a1 1 0 00-.363-1.118l-3.976-2.888c-.784-.57-.38-1.81.588-1.81h4.914a1 1 0 00.951-.69l1.519-4.674z"
+                />
+              </svg>
+              {photo.favoriteCount > 0 && (
+                <span className="absolute -top-2 -right-2 bg-rose-600 text-white text-xs rounded-full h-5 w-5 flex items-center justify-center">
+                  {photo.favoriteCount}
+                </span>
+              )}
+            </button>
+            
             <div className="absolute inset-0 bg-black/0 group-hover:bg-black/20 transition-colors" />
-          </button>
+          </div>
         ))}
       </div>
 
@@ -132,6 +184,7 @@ export default function Gallery({ photos, loading = false }: GalleryProps) {
                 src={selectedPhoto.url}
                 controls
                 className="w-full h-auto max-h-[90vh] object-contain"
+                autoPlay
               />
             ) : (
               <Image

@@ -42,6 +42,7 @@ export async function initDatabase() {
         publicUrl TEXT NOT NULL,
         alt TEXT,
         mediaType TEXT DEFAULT 'image',
+        favoriteCount INTEGER DEFAULT 0,
         uploadedAt TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
         approved BOOLEAN DEFAULT true
       )
@@ -57,6 +58,19 @@ export async function initDatabase() {
     if (columnsResult.rows.length === 0) {
       await client.query(`
         ALTER TABLE photos ADD COLUMN mediaType TEXT DEFAULT 'image'
+      `);
+    }
+    
+    // Afegir la columna favoriteCount si no existeix
+    const favColumnsResult = await client.query(`
+      SELECT column_name 
+      FROM information_schema.columns 
+      WHERE table_name = 'photos' AND column_name = 'favoritecount'
+    `);
+    
+    if (favColumnsResult.rows.length === 0) {
+      await client.query(`
+        ALTER TABLE photos ADD COLUMN favoriteCount INTEGER DEFAULT 0
       `);
     }
     
@@ -102,6 +116,31 @@ export async function getAllPhotos() {
     return result.rows;
   } catch (error) {
     console.error('Error fetching photos:', error);
+    throw error;
+  } finally {
+    client.release();
+  }
+}
+
+// Nova funció per incrementar el comptador de favorits
+export async function incrementFavoriteCount(photoId: string) {
+  const client = await getPoolInstance().connect();
+  try {
+    const result = await client.query(
+      `UPDATE photos 
+       SET favoriteCount = favoriteCount + 1 
+       WHERE id = $1 
+       RETURNING id, favoriteCount`,
+      [photoId]
+    );
+    
+    if (result.rows.length === 0) {
+      throw new Error("Photo not found");
+    }
+    
+    return result.rows[0];
+  } catch (error) {
+    console.error('Error updating favorite count:', error);
     throw error;
   } finally {
     client.release();
