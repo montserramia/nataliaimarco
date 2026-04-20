@@ -14,12 +14,6 @@ export async function POST(request: Request) {
 
     console.log("Generating presigned URL for:", fileName, contentType);
 
-    // Aquestes línies són per depuració - eliminar en producció si es confirmen com a correctes
-    console.log("R2 Endpoint:", process.env.R2_ENDPOINT ? "SET" : "MISSING");
-    console.log("R2 Access Key ID:", process.env.R2_ACCESS_KEY_ID ? "SET" : "MISSING");
-    console.log("R2 Secret Access Key:", process.env.R2_SECRET_ACCESS_KEY ? "SET" : "MISSING");
-    console.log("R2 Bucket Name:", process.env.R2_BUCKET_NAME ? "SET" : "MISSING");
-    console.log("R2 Public URL:", process.env.R2_PUBLIC_URL ? "SET" : "MISSING");
 
     const { url, key, publicUrl } = await generatePresignedUrl(
       fileName,
