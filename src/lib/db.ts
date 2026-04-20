@@ -1,12 +1,12 @@
 import { Pool } from 'pg';
 
-// Configurar connexió a Neon PostgreSQL
-// IMPORTANT: Treure ?sslmode=require si causa problemes
+// Configurar connexió a PostgreSQL
 const getPool = () => {
   let connectionString = process.env.DATABASE_URL;
   
   if (!connectionString) {
-    throw new Error('DATABASE_URL is not configured');
+    console.error('DATABASE_URL is not configured');
+    throw new Error('Database connection failed: missing configuration');
   }
   
   // Assegurar SSL per a producció

@@ -6,8 +6,13 @@ let dbInitialized = false;
 
 async function ensureDbInitialized() {
   if (!dbInitialized) {
-    await initDatabase();
-    dbInitialized = true;
+    try {
+      await initDatabase();
+      dbInitialized = true;
+    } catch (error) {
+      console.error('Database initialization failed:', error);
+      throw error;
+    }
   }
 }
 
@@ -47,7 +52,11 @@ export async function POST(request: Request) {
     });
   } catch (error) {
     console.error("Error recording photo:", error);
-    const errorMessage = error instanceof Error ? error.message : "Unknown error";
+    // No exposar informació sensible en producció
+    const errorMessage = process.env.NODE_ENV === 'development' 
+      ? (error instanceof Error ? error.message : "Unknown error")
+      : "Failed to save media metadata";
+    
     return NextResponse.json(
       { error: "Failed to record photo metadata", details: errorMessage },
       { status: 500 }
@@ -72,8 +81,13 @@ export async function GET() {
     });
   } catch (error) {
     console.error("Error fetching photos:", error);
+    // No exposar informació sensible en producció
+    const errorMessage = process.env.NODE_ENV === 'development' 
+      ? (error instanceof Error ? error.message : "Unknown error")
+      : "Failed to fetch media";
+    
     return NextResponse.json(
-      { error: "Failed to fetch photos", details: error instanceof Error ? error.message : "Unknown error" },
+      { error: "Failed to fetch photos", details: errorMessage },
       { status: 500 }
     );
   }
