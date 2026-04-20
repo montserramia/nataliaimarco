@@ -23,9 +23,10 @@ const getPool = () => {
 
 const pool = getPool();
 
-export async function POST(request: Request, { params }: { params: { id: string } }) {
+export async function POST(request: Request, { params }: { params: Promise<{ id: string }> }) {
   try {
-    const photoId = params.id;
+    const { id } = await params;  // Extraurem l'id del Promise
+    const photoId = id;
 
     if (!photoId) {
       return NextResponse.json(
