@@ -10,7 +10,7 @@ export default function Header() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
   return (
-    <header className="fixed top-0 left-0 right-0 z-50 bg-white/90 backdrop-blur-md shadow-sm border-b border-[#C2D9D1]/30">
+    <header className="fixed top-0 left-0 right-0 z-50 bg-white/90 backdrop-blur-md shadow-sm border-b border-wedding-secondary/30">
       <nav className="container mx-auto px-4 py-3">
         <div className="flex items-center justify-between">
           {/* Logo / Title */}
@@ -31,7 +31,7 @@ export default function Header() {
           <div className="hidden md:flex items-center gap-8">
             <Link
               href="/"
-              className="text-sm transition-colors hover:text-[#528185]"
+              className="text-sm transition-colors hover:text-wedding-primary"
               style={{ 
                 fontFamily: "'Abhaya Libre', serif",
                 letterSpacing: '0.1em',
@@ -42,7 +42,7 @@ export default function Header() {
             </Link>
             <Link
               href="/gallery"
-              className="text-sm transition-colors hover:text-[#528185]"
+              className="text-sm transition-colors hover:text-wedding-primary"
               style={{ 
                 fontFamily: "'Abhaya Libre', serif",
                 letterSpacing: '0.1em',
@@ -87,10 +87,10 @@ export default function Header() {
 
         {/* Mobile Navigation */}
         {mobileMenuOpen && (
-          <div className="md:hidden mt-4 pb-4 flex flex-col gap-4 border-t border-[#C2D9D1]/30 pt-4">
+          <div className="md:hidden mt-4 pb-4 flex flex-col gap-4 border-t border-wedding-secondary/30 pt-4">
             <Link
               href="/"
-              className="text-sm py-2 transition-colors hover:text-[#528185]"
+              className="text-sm py-2 transition-colors hover:text-wedding-primary"
               style={{ 
                 fontFamily: 'var(--font-cinzel)',
                 letterSpacing: '0.1em'
@@ -101,7 +101,7 @@ export default function Header() {
             </Link>
             <Link
               href="/gallery"
-              className="text-sm py-2 transition-colors hover:text-[#528185]"
+              className="text-sm py-2 transition-colors hover:text-wedding-primary"
               style={{ 
                 fontFamily: 'var(--font-cinzel)',
                 letterSpacing: '0.1em'
@@ -124,7 +124,7 @@ export default function Header() {
               {t("nav", "upload")}
             </Link>
             
-            <div className="pt-4 border-t border-[#C2D9D1]/30">
+            <div className="pt-4 border-t border-wedding-secondary/30">
               <LanguageSwitcher />
             </div>
           </div>
@@ -148,7 +148,7 @@ function LanguageSwitcher() {
       <select
         value={locale}
         onChange={(e) => setLocale(e.target.value as any)}
-        className="text-xs rounded-full border border-[#C2D9D1] px-3 py-1.5 focus:outline-none focus:ring-2 focus:ring-[#528185]/50 transition-all"
+        className="text-xs rounded-full border border-wedding-secondary px-3 py-1.5 focus:outline-none focus:ring-2 focus:ring-wedding-primary/50 transition-all"
         style={{ 
           fontFamily: "'Abhaya Libre', serif",
           letterSpacing: '0.05em',

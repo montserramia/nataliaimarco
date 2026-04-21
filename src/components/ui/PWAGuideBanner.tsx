@@ -41,7 +41,7 @@ export default function PWAGuideBanner() {
   if (!showBanner) return null;
 
   return (
-    <div className="fixed bottom-0 left-0 right-0 bg-white border-t border-[#C2D9D1] p-4 shadow-lg z-50">
+    <div className="fixed bottom-0 left-0 right-0 bg-white border-t border-wedding-secondary p-4 shadow-lg z-50">
       <div className="max-w-4xl mx-auto">
         <div className="flex flex-col md:flex-row items-center justify-between gap-4">
           <p className="text-sm text-gray-700 flex-1 max-w-2xl">
@@ -50,7 +50,7 @@ export default function PWAGuideBanner() {
           <div className="flex gap-2">
             <button
               onClick={handleInstall}
-              className="px-4 py-2 bg-[#528185] text-white rounded-lg text-sm font-medium hover:bg-[#4a7378] transition"
+              className="px-4 py-2 bg-wedding-primary text-white rounded-lg text-sm font-medium hover:bg-[#4a7378] transition"
             >
               {t("pwa", "banner_install")}
             </button>
