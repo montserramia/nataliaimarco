@@ -64,6 +64,12 @@ export const translations = {
       close: "Tancar",
       save: "Desar",
     },
+    // PWA Install Banner
+    pwa: {
+      banner_text: "📱 Pots instal·lar aquest àlbum com una app. És opcional, segur i et permetrà pujar fotos més fàcilment.",
+      banner_install: "Afegir ara",
+      banner_close: "Després",
+    },
   },
   es: {
     home: {
@@ -129,6 +135,12 @@ export const translations = {
       close: "Cerrar",
       save: "Guardar",
     },
+    // PWA Install Banner
+    pwa: {
+      banner_text: "📱 Puedes instalar este álbum como una app. Es opcional, seguro y te permitirá subir fotos más fácilmente.",
+      banner_install: "Añadir ahora",
+      banner_close: "Después",
+    },
   },
   it: {
     home: {
@@ -193,6 +205,12 @@ export const translations = {
       error: "Errore",
       close: "Chiudi",
       save: "Salva",
+    },  
+    // PWA Install Banner
+    pwa: {
+      banner_text: "📱 Puoi installare questo album come un'app. È opzionale, sicuro e ti permetterà di caricare foto più facilmente.",
+      banner_install: "Aggiungi ora",
+      banner_close: "Dopo",
     },
   },
 } as const;

@@ -3,6 +3,7 @@
 import { useLanguage } from "@/i18n/LanguageContext";
 import Link from "next/link";
 import { useState } from "react";
+import PWAGuideBanner from './PWAGuideBanner';
 
 export default function Header() {
   const { t, locale } = useLanguage();
