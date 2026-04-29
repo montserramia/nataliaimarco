@@ -83,6 +83,9 @@ export default function RootLayout({
           >
             {children}
           </main>
+            <footer className="w-full text-center text-xs text-gray-500 py-4 bg-white/70 backdrop-blur-sm">
+              Desenvolupat per <a href="https://newwweb.cat" target="_blank" rel="noopener noreferrer" className="underline">newWweb.cat</a> amb la metodologia <a href="https://aura-ai.eu" target="_blank" rel="noopener noreferrer" className="underline">aura-ai.eu</a>
+            </footer>
         </LanguageProvider>
       </body>
     </html>
