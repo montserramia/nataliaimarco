@@ -1,7 +1,6 @@
 "use client";
 
 import { useState } from "react";
-import Image from "next/image";
 
 export interface MediaItem {
   id: string;
@@ -16,7 +15,7 @@ interface GalleryProps {
   photos: MediaItem[];
   loading?: boolean;
   onRefresh?: () => void;
-  onFavoriteUpdate?: (photoId: string) => void; // Actualització local de favorits
+  onFavoriteUpdate?: (photoId: string) => void;
 }
 
 export default function Gallery({ photos, loading = false, onRefresh, onFavoriteUpdate }: GalleryProps) {
@@ -66,11 +65,10 @@ export default function Gallery({ photos, loading = false, onRefresh, onFavorite
       });
 
       if (response.ok) {
-        // Actualització local immediata — sense recarregar totes les fotos
         if (onFavoriteUpdate) {
           onFavoriteUpdate(photoId);
         } else if (onRefresh) {
-          onRefresh(); // fallback per compatibilitat
+          onRefresh();
         }
       }
     } catch (error) {
@@ -159,12 +157,12 @@ export default function Gallery({ photos, loading = false, onRefresh, onFavorite
                   <div className="absolute inset-0 bg-black/0 group-hover:bg-black/20 transition-colors" />
                 </div>
               ) : (
-                <Image
+                // img natiu: serveix directament des de Cloudflare R2, sense passar per Vercel
+                <img
                   src={photo.url}
                   alt={photo.alt || "Wedding media"}
-                  fill
-                  className="object-cover group-hover:scale-105 transition-transform duration-300"
-                  sizes="(max-width: 640px) 50vw, (max-width: 1024px) 33vw, 25vw"
+                  className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
+                  loading="lazy"
                   onError={handleImageError}
                 />
               )}
@@ -200,11 +198,10 @@ export default function Gallery({ photos, loading = false, onRefresh, onFavorite
                 autoPlay
               />
             ) : (
-              <Image
+              // img natiu també al lightbox
+              <img
                 src={selectedPhoto.url}
                 alt={selectedPhoto.alt || "Wedding media"}
-                width={1200}
-                height={800}
                 className="w-full h-auto max-h-[90vh] object-contain"
               />
             )}
