@@ -52,15 +52,20 @@ export async function POST(request: Request) {
     });
   } catch (error) {
     console.error("Error recording photo:", error);
-    // No exposar informació sensible en producció
-    const errorMessage = process.env.NODE_ENV === 'development' 
-      ? (error instanceof Error ? error.message : "Unknown error")
-      : "Failed to save media metadata";
     
-    return NextResponse.json(
-      { error: "Failed to record photo metadata", details: errorMessage },
-      { status: 500 }
-    );
+    // Don't expose sensitive information in production
+    if (process.env.NODE_ENV === 'production') {
+      return NextResponse.json(
+        { error: "Failed to save media metadata" },
+        { status: 500 }
+      );
+    } else {
+      const errorMessage = error instanceof Error ? error.message : "Unknown error";
+      return NextResponse.json(
+        { error: "Failed to record photo metadata", details: errorMessage },
+        { status: 500 }
+      );
+    }
   }
 }
 
@@ -82,14 +87,19 @@ export async function GET() {
     });
   } catch (error) {
     console.error("Error fetching photos:", error);
-    // No exposar informació sensible en producció
-    const errorMessage = process.env.NODE_ENV === 'development' 
-      ? (error instanceof Error ? error.message : "Unknown error")
-      : "Failed to fetch media";
     
-    return NextResponse.json(
-      { error: "Failed to fetch photos", details: errorMessage },
-      { status: 500 }
-    );
+    // Don't expose sensitive information in production
+    if (process.env.NODE_ENV === 'production') {
+      return NextResponse.json(
+        { error: "Failed to fetch photos" },
+        { status: 500 }
+      );
+    } else {
+      const errorMessage = error instanceof Error ? error.message : "Unknown error";
+      return NextResponse.json(
+        { error: "Failed to fetch photos", details: errorMessage },
+        { status: 500 }
+      );
+    }
   }
 }

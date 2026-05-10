@@ -3,6 +3,11 @@ import { getSignedUrl } from "@aws-sdk/s3-request-presigner";
 
 // Configurar client S3 per a Cloudflare R2
 function createR2Client() {
+  // Validate required environment variables
+  if (!process.env.R2_ENDPOINT || !process.env.R2_ACCESS_KEY_ID || !process.env.R2_SECRET_ACCESS_KEY || !process.env.R2_BUCKET_NAME || !process.env.R2_PUBLIC_URL) {
+    throw new Error("Missing required R2 environment variables. Please check your configuration.");
+  }
+  
   return new S3Client({
     region: "auto",
     endpoint: process.env.R2_ENDPOINT!,
@@ -18,6 +23,11 @@ export async function generatePresignedUrl(
   contentType: string,
   expiresIn = 3600
 ) {
+  // Validate inputs
+  if (!fileName || !contentType) {
+    throw new Error("fileName and contentType are required");
+  }
+  
   const client = createR2Client();
   const bucket = process.env.R2_BUCKET_NAME!;
 

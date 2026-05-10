@@ -14,7 +14,6 @@ export async function POST(request: Request) {
 
     console.log("Generating presigned URL for:", fileName, contentType);
 
-
     const { url, key, publicUrl } = await generatePresignedUrl(
       fileName,
       contentType
@@ -29,11 +28,20 @@ export async function POST(request: Request) {
     });
   } catch (error) {
     console.error("Error generating presigned URL:", error);
-    const errorMessage = error instanceof Error ? error.message : "Unknown error";
-    console.error("Full error details:", error);
-    return NextResponse.json(
-      { error: "Failed to generate upload URL", details: errorMessage },
-      { status: 500 }
-    );
+    
+    // Don't expose sensitive information in production
+    if (process.env.NODE_ENV === 'production') {
+      return NextResponse.json(
+        { error: "Failed to generate upload URL" },
+        { status: 500 }
+      );
+    } else {
+      const errorMessage = error instanceof Error ? error.message : "Unknown error";
+      console.error("Full error details:", error);
+      return NextResponse.json(
+        { error: "Failed to generate upload URL", details: errorMessage },
+        { status: 500 }
+      );
+    }
   }
 }

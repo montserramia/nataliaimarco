@@ -91,6 +91,11 @@ export async function initDatabase() {
 export async function insertPhoto(key: string, publicUrl: string, alt?: string, mediaType: string = 'image') {
   const client = await getPoolInstance().connect();
   try {
+    // Validate inputs
+    if (!key || !publicUrl) {
+      throw new Error('Key and publicUrl are required');
+    }
+    
     const result = await client.query(
       `INSERT INTO photos (key, publicUrl, alt, mediaType, approved)
        VALUES ($1, $2, $3, $4, true)
@@ -150,11 +155,19 @@ export async function incrementFavoriteCount(photoId: string) {
 export async function photoExists(key: string) {
   const client = await getPoolInstance().connect();
   try {
+    // Validate input
+    if (!key) {
+      throw new Error('Key is required');
+    }
+    
     const result = await client.query(
       `SELECT COUNT(*) as count FROM photos WHERE key = $1`,
       [key]
     );
     return parseInt(result.rows[0].count) > 0;
+  } catch (error) {
+    console.error('Error checking if photo exists:', error);
+    throw error;
   } finally {
     client.release();
   }
