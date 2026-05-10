@@ -66,7 +66,6 @@ export default function Gallery({ photos, loading = false, onRefresh }: GalleryP
       });
       
       if (response.ok) {
-        // Si es proporciona una funció onRefresh, cridar-la per refrescar les dades
         if (onRefresh) {
           onRefresh();
         }
@@ -76,13 +75,21 @@ export default function Gallery({ photos, loading = false, onRefresh }: GalleryP
     }
   };
 
+  // Amaga el contenidor si la imatge no pot carregar (ex: HEIC en Chrome/Android)
+  const handleImageError = (e: React.SyntheticEvent<HTMLImageElement>) => {
+    const container = (e.target as HTMLElement).closest(".media-item-container");
+    if (container) {
+      (container as HTMLElement).style.display = "none";
+    }
+  };
+
   return (
     <>
       <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
         {photos.map((photo) => (
           <div
             key={photo.id}
-            className="aspect-square relative rounded-lg overflow-hidden group hover:shadow-lg transition-shadow flex flex-col"
+            className="media-item-container aspect-square relative rounded-lg overflow-hidden group hover:shadow-lg transition-shadow flex flex-col"
           >
             {/* Botó de favorits a sobre de la imatge/vídeo */}
             <div className="absolute top-2 right-2 z-10">
@@ -123,7 +130,7 @@ export default function Gallery({ photos, loading = false, onRefresh }: GalleryP
                     src={photo.url} 
                     className="object-cover w-full h-full opacity-80"
                     muted
-                    preload="metadata" // Carrega només metadades per millorar rendiment
+                    preload="metadata"
                   />
                   <div className="absolute inset-0 flex items-center justify-center">
                     <svg 
@@ -155,6 +162,7 @@ export default function Gallery({ photos, loading = false, onRefresh }: GalleryP
                   fill
                   className="object-cover group-hover:scale-105 transition-transform duration-300"
                   sizes="(max-width: 640px) 50vw, (max-width: 1024px) 33vw, 25vw"
+                  onError={handleImageError}
                 />
               )}
             </button>
