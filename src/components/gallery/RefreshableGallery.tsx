@@ -14,26 +14,15 @@ export default function RefreshableGallery() {
   const [hasMore, setHasMore] = useState(true);
   const sentinelRef = useRef<HTMLDivElement>(null);
 
-  // Càrrega inicial (o refresc de favorits)
-  const loadPhotos = useCallback(async (resetPage = false) => {
+  // Càrrega inicial
+  const loadPhotos = useCallback(async () => {
     try {
-      if (resetPage) {
-        setLoading(true);
-        const response = await fetch('/api/photos?page=1');
-        const data = await response.json();
-        setPhotos(data.photos || []);
-        setPage(1);
-        setHasMore(data.pagination?.hasMore ?? false);
-      } else {
-        // Refresc lleuger: només actualitza les fotos existents (per favorits)
-        const response = await fetch(`/api/photos?page=1`);
-        const data = await response.json();
-        setPhotos(prev => {
-          // Actualitzar favoriteCount de les fotos ja carregades
-          const updatedMap = new Map(data.photos.map((p: MediaItem) => [p.id, p]));
-          return prev.map(p => updatedMap.has(p.id) ? { ...p, favoriteCount: (updatedMap.get(p.id) as MediaItem).favoriteCount } : p);
-        });
-      }
+      setLoading(true);
+      const response = await fetch('/api/photos?page=1');
+      const data = await response.json();
+      setPhotos(data.photos || []);
+      setPage(1);
+      setHasMore(data.pagination?.hasMore ?? false);
     } catch (error) {
       console.error('Error loading photos:', error);
     } finally {
@@ -52,7 +41,6 @@ export default function RefreshableGallery() {
       const data = await response.json();
 
       setPhotos(prev => {
-        // Evitar duplicats per si hi ha hagut noves pujades
         const existingIds = new Set(prev.map(p => p.id));
         const newPhotos = (data.photos || []).filter((p: MediaItem) => !existingIds.has(p.id));
         return [...prev, ...newPhotos];
@@ -66,9 +54,20 @@ export default function RefreshableGallery() {
     }
   }, [page, loadingMore, hasMore]);
 
+  // Actualització local del favorit — sense fer cap fetch addicional
+  const handleFavoriteUpdate = useCallback((photoId: string) => {
+    setPhotos(prev =>
+      prev.map(p =>
+        p.id === photoId
+          ? { ...p, favoriteCount: p.favoriteCount + 1 }
+          : p
+      )
+    );
+  }, []);
+
   // Càrrega inicial
   useEffect(() => {
-    loadPhotos(true);
+    loadPhotos();
   }, []);
 
   // IntersectionObserver: detecta quan el sentinel és visible
@@ -82,7 +81,7 @@ export default function RefreshableGallery() {
           loadMore();
         }
       },
-      { rootMargin: '200px' } // Comença a carregar 200px abans d'arribar al final
+      { rootMargin: '200px' }
     );
 
     observer.observe(sentinel);
@@ -94,7 +93,7 @@ export default function RefreshableGallery() {
       <Gallery
         photos={photos}
         loading={loading}
-        onRefresh={() => loadPhotos(false)}
+        onFavoriteUpdate={handleFavoriteUpdate}
       />
 
       {/* Sentinel — element invisible que dispara la càrrega de més fotos */}

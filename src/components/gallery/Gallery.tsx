@@ -15,10 +15,11 @@ export interface MediaItem {
 interface GalleryProps {
   photos: MediaItem[];
   loading?: boolean;
-  onRefresh?: () => void; // Funció opcional per refrescar les dades
+  onRefresh?: () => void;
+  onFavoriteUpdate?: (photoId: string) => void; // Actualització local de favorits
 }
 
-export default function Gallery({ photos, loading = false, onRefresh }: GalleryProps) {
+export default function Gallery({ photos, loading = false, onRefresh, onFavoriteUpdate }: GalleryProps) {
   const [selectedPhoto, setSelectedPhoto] = useState<MediaItem | null>(null);
 
   if (loading) {
@@ -56,18 +57,20 @@ export default function Gallery({ photos, loading = false, onRefresh }: GalleryP
     );
   }
 
-  // Funció per gestionar el clic de favorit
   const handleFavoriteClick = async (photoId: string, e: React.MouseEvent) => {
-    e.stopPropagation(); // Evitar que s'obri la imatge en gran
-    
+    e.stopPropagation();
+
     try {
       const response = await fetch(`/api/photos/${photoId}/favorite`, {
         method: 'POST',
       });
-      
+
       if (response.ok) {
-        if (onRefresh) {
-          onRefresh();
+        // Actualització local immediata — sense recarregar totes les fotos
+        if (onFavoriteUpdate) {
+          onFavoriteUpdate(photoId);
+        } else if (onRefresh) {
+          onRefresh(); // fallback per compatibilitat
         }
       }
     } catch (error) {
@@ -91,7 +94,7 @@ export default function Gallery({ photos, loading = false, onRefresh }: GalleryP
             key={photo.id}
             className="media-item-container aspect-square relative rounded-lg overflow-hidden group hover:shadow-lg transition-shadow flex flex-col"
           >
-            {/* Botó de favorits a sobre de la imatge/vídeo */}
+            {/* Botó de favorits */}
             <div className="absolute top-2 right-2 z-10">
               <button
                 onClick={(e) => handleFavoriteClick(photo.id, e)}
@@ -118,38 +121,38 @@ export default function Gallery({ photos, loading = false, onRefresh }: GalleryP
                 )}
               </button>
             </div>
-            
-            {/* Element multimèdia (imatge o vídeo) */}
+
+            {/* Element multimèdia */}
             <button
               onClick={() => setSelectedPhoto(photo)}
               className="w-full h-full block grow"
             >
               {photo.type === 'video' ? (
                 <div className="w-full h-full flex items-center justify-center bg-gray-900 relative">
-                  <video 
-                    src={photo.url} 
+                  <video
+                    src={photo.url}
                     className="object-cover w-full h-full opacity-80"
                     muted
                     preload="metadata"
                   />
                   <div className="absolute inset-0 flex items-center justify-center">
-                    <svg 
-                      className="w-12 h-12 text-white opacity-80" 
-                      fill="none" 
-                      stroke="currentColor" 
+                    <svg
+                      className="w-12 h-12 text-white opacity-80"
+                      fill="none"
+                      stroke="currentColor"
                       viewBox="0 0 24 24"
                     >
-                      <path 
-                        strokeLinecap="round" 
-                        strokeLinejoin="round" 
-                        strokeWidth={2} 
-                        d="M14.752 11.168l-3.197-2.132A1 1 0 0010 9.87v4.263a1 1 0 001.555.832l3.197-2.132a1 1 0 000-1.664z" 
+                      <path
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        strokeWidth={2}
+                        d="M14.752 11.168l-3.197-2.132A1 1 0 0010 9.87v4.263a1 1 0 001.555.832l3.197-2.132a1 1 0 000-1.664z"
                       />
-                      <path 
-                        strokeLinecap="round" 
-                        strokeLinejoin="round" 
-                        strokeWidth={2} 
-                        d="M21 12a9 9 0 11-18 0 9 9 0 0118 0z" 
+                      <path
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        strokeWidth={2}
+                        d="M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
                       />
                     </svg>
                   </div>
