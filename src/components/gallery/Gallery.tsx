@@ -28,8 +28,6 @@ export default function Gallery({ photos, loading = false, onRefresh }: GalleryP
           <div
             key={i}
             className="aspect-square bg-gray-200 rounded-lg animate-pulse"
-            aria-label="Loading placeholder"
-            role="status"
           />
         ))}
       </div>
@@ -44,7 +42,6 @@ export default function Gallery({ photos, loading = false, onRefresh }: GalleryP
           fill="none"
           stroke="currentColor"
           viewBox="0 0 24 24"
-          aria-hidden="true"
         >
           <path
             strokeLinecap="round"
@@ -86,23 +83,19 @@ export default function Gallery({ photos, loading = false, onRefresh }: GalleryP
           <div
             key={photo.id}
             className="aspect-square relative rounded-lg overflow-hidden group hover:shadow-lg transition-shadow flex flex-col"
-            aria-label={`${photo.type === 'video' ? 'Video' : 'Image'} ${photo.alt || 'media item'}`}
-            role="button"
-            tabIndex={0}
           >
             {/* Botó de favorits a sobre de la imatge/vídeo */}
             <div className="absolute top-2 right-2 z-10">
               <button
                 onClick={(e) => handleFavoriteClick(photo.id, e)}
                 className="bg-black/50 rounded-full p-2 hover:bg-black/70 transition-all"
-                aria-label={`Mark ${photo.type} as favorite`}
+                aria-label="Mark as favorite"
               >
                 <svg
                   className={`w-5 h-5 ${photo.favoriteCount > 0 ? 'text-yellow-400 fill-current' : 'text-white'}`}
                   fill={photo.favoriteCount > 0 ? 'currentColor' : 'none'}
                   stroke="currentColor"
                   viewBox="0 0 24 24"
-                  aria-hidden="true"
                 >
                   <path
                     strokeLinecap="round"
@@ -112,10 +105,7 @@ export default function Gallery({ photos, loading = false, onRefresh }: GalleryP
                   />
                 </svg>
                 {photo.favoriteCount > 0 && (
-                  <span 
-                    className="absolute -top-2 -right-2 bg-rose-600 text-white text-xs rounded-full h-5 w-5 flex items-center justify-center"
-                    aria-label={`${photo.favoriteCount} favorites`}
-                  >
+                  <span className="absolute -top-2 -right-2 bg-rose-600 text-white text-xs rounded-full h-5 w-5 flex items-center justify-center">
                     {photo.favoriteCount}
                   </span>
                 )}
@@ -126,7 +116,6 @@ export default function Gallery({ photos, loading = false, onRefresh }: GalleryP
             <button
               onClick={() => setSelectedPhoto(photo)}
               className="w-full h-full block grow"
-              aria-label={`View ${photo.type} ${photo.alt || 'media item'}`}
             >
               {photo.type === 'video' ? (
                 <div className="w-full h-full flex items-center justify-center bg-gray-900 relative">
@@ -135,7 +124,6 @@ export default function Gallery({ photos, loading = false, onRefresh }: GalleryP
                     className="object-cover w-full h-full opacity-80"
                     muted
                     preload="metadata" // Carrega només metadades per millorar rendiment
-                    aria-label={photo.alt || "Video thumbnail"}
                   />
                   <div className="absolute inset-0 flex items-center justify-center">
                     <svg 
@@ -143,7 +131,6 @@ export default function Gallery({ photos, loading = false, onRefresh }: GalleryP
                       fill="none" 
                       stroke="currentColor" 
                       viewBox="0 0 24 24"
-                      aria-hidden="true"
                     >
                       <path 
                         strokeLinecap="round" 
@@ -168,7 +155,6 @@ export default function Gallery({ photos, loading = false, onRefresh }: GalleryP
                   fill
                   className="object-cover group-hover:scale-105 transition-transform duration-300"
                   sizes="(max-width: 640px) 50vw, (max-width: 1024px) 33vw, 25vw"
-                  priority={false}
                 />
               )}
             </button>
@@ -181,15 +167,9 @@ export default function Gallery({ photos, loading = false, onRefresh }: GalleryP
         <div
           className="fixed inset-0 z-50 bg-black/90 flex items-center justify-center p-4"
           onClick={() => setSelectedPhoto(null)}
-          onKeyDown={(e) => {
-            if (e.key === 'Escape') setSelectedPhoto(null);
-          }}
-          role="dialog"
-          aria-modal="true"
-          aria-label={`Viewing ${selectedPhoto.type}: ${selectedPhoto.alt || 'media item'}`}
         >
           <button
-            className="absolute top-4 right-4 text-white/80 hover:text-white z-10"
+            className="absolute top-4 right-4 text-white/80 hover:text-white"
             onClick={() => setSelectedPhoto(null)}
             aria-label="Close"
           >
@@ -207,7 +187,6 @@ export default function Gallery({ photos, loading = false, onRefresh }: GalleryP
                 controls
                 className="w-full h-auto max-h-[90vh] object-contain"
                 autoPlay
-                aria-label={selectedPhoto.alt || "Video player"}
               />
             ) : (
               <Image

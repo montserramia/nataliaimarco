@@ -61,8 +61,12 @@ export default function UploadPage() {
           });
         } catch (error) {
           console.error("Network error during upload to R2:", error);
-          // Show generic error message to prevent exposing sensitive information
-          alert(t("upload", "failed_upload"));
+          // Només mostrar detalls específics en entorn de desenvolupament
+          if (process.env.NODE_ENV === 'development') {
+            alert("There was an error connecting to the file storage service. Please make sure your environment variables are correctly configured.\n\nError: " + (error instanceof Error ? error.message : String(error)));
+          } else {
+            alert("There was an error connecting to the file storage service. Please try again later.");
+          }
           throw new Error(`Network error during upload: ${error instanceof Error ? error.message : String(error)}`);
         }
 
@@ -126,10 +130,7 @@ export default function UploadPage() {
 
         {/* Status Messages */}
         {uploadStatus === "success" && (
-          <div 
-            role="alert"
-            className="mt-8 p-4 bg-green-50 border border-green-200 rounded-lg text-center text-green-700"
-          >
+          <div className="mt-8 p-4 bg-green-50 border border-green-200 rounded-lg text-center text-green-700">
             <svg className="w-6 h-6 mx-auto mb-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
             </svg>
@@ -138,10 +139,7 @@ export default function UploadPage() {
         )}
 
         {uploadStatus === "error" && (
-          <div 
-            role="alert"
-            className="mt-8 p-4 bg-red-50 border border-red-200 rounded-lg text-center text-red-700"
-          >
+          <div className="mt-8 p-4 bg-red-50 border border-red-200 rounded-lg text-center text-red-700">
             <svg className="w-6 h-6 mx-auto mb-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
             </svg>

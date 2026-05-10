@@ -51,28 +51,11 @@ export function LanguageProvider({ children }: { children: ReactNode }) {
   const t = useCallback(
     (key: TranslationKey, subkey?: string): string => {
       const translation = translations[locale][key];
-      
-      // First, try to get translation from the current locale
+      if (typeof translation === 'string') return translation;
       if (subkey && typeof translation === 'object') {
-        const subTranslation = (translation as Record<string, string>)[subkey];
-        if (subTranslation) return subTranslation;
-      } else if (typeof translation === 'string') {
-        return translation;
+        return (translation as Record<string, string>)[subkey] || '';
       }
-      
-      // Fallback to Catalan if translation doesn't exist in current locale
-      if (locale !== 'ca') {
-        const fallbackTranslation = translations['ca'][key];
-        if (subkey && typeof fallbackTranslation === 'object') {
-          const fallbackSubTranslation = (fallbackTranslation as Record<string, string>)[subkey];
-          if (fallbackSubTranslation) return fallbackSubTranslation;
-        } else if (typeof fallbackTranslation === 'string') {
-          return fallbackTranslation;
-        }
-      }
-      
-      // Final fallback - return key as string for easy identification of missing translations
-      return subkey ? `${key}.${subkey}` : key;
+      return '';
     },
     [locale]
   );
